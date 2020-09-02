@@ -59,7 +59,7 @@ class Kugle {
   }
 
   void display() {
-    fill(127,255,0);
+    fill(0);
     circle(location.x, location.y, diameter);
   }
 
