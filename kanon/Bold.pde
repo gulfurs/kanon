@@ -63,7 +63,7 @@ class Kugle {
     circle(location.x, location.y, diameter);
   }
 
-  void checkCollision(ArrayList<Kugle> kugler) {
+  void checkCollision(ArrayList<Kugle> kugler, Box box) {
     for (Kugle kugle : kugler) {
       float actualDist = dist(location.x, location.y, kugle.location.x, kugle.location.y);
       // Boldens radius og bakkens radius lægges sammen
@@ -89,6 +89,31 @@ class Kugle {
         kugle.velocity.add(velocity2);
       }
     }
+    
+    // Box kode - start
+    //float actualDist = dist(location.x, location.y, bakke.x, bakke.y);
+    // Boldens radius og bakkens radius lægges sammen
+    // så vi får den minimum længde de kan være fra hinanden.
+    //float minDist = radius + bakke.diameter / 2;
+    
+    // Hvis den faktiske distance er kortere end den minimum distance de skal være så udfør "bouncing'en"
+    //if (actualDist < minDist) {
+      // En del af koden under denne kommentar er stjålet herfra: https://processing.org/examples/bouncybubbles.html
+      //float dx = bakke.x - location.x;
+      //float dy = bakke.y - location.y;
+      //float spring = 0.5;
+      
+      //float angle = atan2(dy, dx);
+      //float targetX = location.x + cos(angle) * minDist;
+      //float targetY = location.y + sin(angle) * minDist;
+      //float ax = (targetX - bakke.x) * spring;
+      //float ay = (targetY - bakke.y) * spring;
+      //velocity.sub(new PVector(ax, ay));
+      
+      // Jeg tilføjer også friktion til objektet når den rammer en bakke.
+      //createFrictionForce();
+    //R}
+    // Box kode - slut
 
     // Her tjekkes der for om bolden rammer skærmen.
     if (location.x >= xBoundary) {
