@@ -12,7 +12,7 @@ void setup() {
   kugler = new ArrayList<Kugle>();
   for (int i = 0; i < 10; i++) kugler.add(new Kugle(50, 20));
   m = new Maskine();
-  box = new Box();
+  box = new Box(650, 500, 100, 300);
 }
 
 
