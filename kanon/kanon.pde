@@ -7,6 +7,7 @@ ArrayList<Kugle> kugler;
 
 void setup() {
   size(800, 800);
+  // Lav hoppebold
   kugler = new ArrayList<Kugle>();
   for (int i = 0; i < 10; i++) kugler.add(new Kugle(50, 20));
   m = new Maskine();
