@@ -1,61 +1,113 @@
-class Bold {
-
-  int Dia;
+class Kugle {
   PVector location;
-  PVector vel;
-  PVector acc;
+  PVector velocity;
+  PVector acceleration;
 
-  Bold(int dia_, float locationX, float locationY) {
-    location = new PVector(locationX, locationY);
-    vel = new PVector(0, 0);
-    acc = new PVector(0, 0);
-    Dia = dia_;
+  float diameter;
+  float radius;
+
+  float xBoundary;
+  float yBoundary;
+
+  Kugle(int diameter, int mass) {
+    this.diameter = diameter;
+    this.radius = diameter / 2;
+    this.xBoundary = width - radius;
+    this.yBoundary = height - radius;
+
+    // Lav en lokations vektor med tilfældige x og y koordinater
+    // De tilfældige tal genereres i intervallet [radius; vinduets længder MINUS radius].
+    // Det sørger for at bolden ikke "spawner" ude fra vinduet!
+    this.location = new PVector(
+      random(radius, xBoundary), 
+      random(radius, yBoundary)
+    );
+
+    // Her laves der en velocity vektor der har en tilfældig retning der er skaleret op til 12 til at starte med!
+    int velocityScalar = 12;
+    this.velocity = new PVector(
+      random(1) * velocityScalar,
+      random(1) * velocityScalar
+    );
+
+    // Tyngdekrafts vektor der peger ned ad mod jorden med en kraft på 9.82 N (y koordinatet er 9.82). 
+    PVector earthGravity = new PVector(0, 9.82);
+    // Divider earthGravity vektoren med massen.
+    this.acceleration = earthGravity.div(mass);
   }
 
+  void createFrictionForce() {
+    // Hvis boldens fart hen ad x-aksen er mindre ind 0.01 eller over -0.01 så sættes x til 0.
+    // Bolden vil opføre sig underligt og blive ved med at bevæge sig hvis vi ikke gjorde det.
+    if (velocity.x < 0.01 && velocity.x > -0.01) velocity.x = 0;
+    // Hvis veloctiy.x er negativ så lægger vi 0.01 til og -0.01 hvis positiv.
+    // På den måde vil vi hele tiden modvirke farten i x retningen og dermed simulere en slags friktion!
+    else velocity.x += velocity.x < 0 ? 0.01 : -0.01;
+  }
 
-
-  void bounce() {
-
-    for (int i = 0; i < bold.size(); i++) {  
-      if (this != bold.get(i) && dist(location.x, location.y, bold.get(i).location.x, bold.get(i).location.y) < 30) {
-        vel.mult(-1);
-      }
+  void update() {
+    // Sørg for at farten aldrig kommer over ca. 20 
+    // da bolden af en eller anden grund når rigtig højt op i fart
+    // når de rammer hinanden og bakkerne.
+    if (velocity.mag() > 20) {
+      velocity.normalize();
+      velocity.mult(19);
     }
 
-    if (location.x < 0) {
-      location.x = 0;
-      vel.x *= -1;
-    }
-
-    if (location.x > width) {
-      location.x = width;
-      vel.x *= -1;
-    }
-
-    if (location.y > height) {
-      location.y = height;
-      vel.y *= -1;
-    }
+    velocity.add(acceleration);
+    location.add(velocity);
   }
 
   void display() {
-    noStroke();
-    fill(255);
-    ellipse(location.x, location.y, Dia, Dia);
-    fill(0);
-    stroke(2);
-    line(location.x + Dia/10 ,location.y + Dia/5,location.x - Dia/10 ,location.y + Dia/5);
+    fill(127,255,0);
+    circle(location.x, location.y, diameter);
   }
 
+  void checkCollision(ArrayList<Kugle> kugler) {
+    for (Kugle kugle : kugler) {
+      float actualDist = dist(location.x, location.y, kugle.location.x, kugle.location.y);
+      // Boldens radius og bakkens radius lægges sammen
+      // så vi får den minimum længde de kan være fra hinanden.
+      float minDist = radius + kugle.radius;
 
-  void update() {
-    location.add(vel);
-    vel.add(acc);
-    bounce();
-  }
+      // Hvis den faktiske distance er kortere end den minimum distance de skal være så udfør "bouncing'en"
+      if (actualDist < minDist) {
+        // En del af koden under denne kommentar er stjålet herfra: https://processing.org/examples/bouncybubbles.html
+        float dx = kugle.location.x - location.x;
+        float dy = kugle.location.y - location.y;
+        float spring = 0.5;
+      
+        float angle = atan2(dy, dx);
+        float targetX = location.x + cos(angle) * minDist;
+        float targetY = location.y + sin(angle) * minDist;
+        float ax = (targetX - kugle.location.x) * spring;
+        float ay = (targetY - kugle.location.y) * spring;
+      
+        PVector velocity2 = new PVector(ax, ay);
+      
+        velocity.sub(velocity2);
+        kugle.velocity.add(velocity2);
+      }
+    }
 
-  void applyForce(PVector force) {
-    acc = force;
-    vel.add(acc);
+    // Her tjekkes der for om bolden rammer skærmen.
+    if (location.x >= xBoundary) {
+      velocity.x *= -1;
+      location.x = xBoundary;
+    } else if (location.x <= radius) {
+      velocity.x *= -1;
+      location.x = radius;
+    }
+
+    if (location.y >= yBoundary) {
+      velocity.y *= -1;
+      location.y = yBoundary;
+
+      // Lav friktion så snart at bolden rører den flade del af jorden.
+      createFrictionForce();
+    } else if (location.y <= radius) {
+      velocity.y *= -1;
+      location.y = radius;
+    }
   }
 }
