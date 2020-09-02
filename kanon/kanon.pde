@@ -13,6 +13,7 @@ void setup() {
   m = new Maskine();
 }
 
+
 void draw() {
   background(255);
   for (Kugle kugle : kugler) {
