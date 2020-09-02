@@ -2,6 +2,7 @@
 //test 2
 //test 3
 ArrayList<Kugle> kugler; 
+Maskine m;
 
 
 void setup() {
@@ -9,6 +10,7 @@ void setup() {
   // Lav hoppebold
   kugler = new ArrayList<Kugle>();
   for (int i = 0; i < 10; i++) kugler.add(new Kugle(50, 20));
+    m = new Maskine();
 }
 
 void draw() {
@@ -28,6 +30,7 @@ void draw() {
     kugle.checkCollision(kugler2);
     kugle.display();
   }
+    m.display();
 }
 
 void mousePressed(){
