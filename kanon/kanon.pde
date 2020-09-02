@@ -2,6 +2,7 @@
 //test 2
 //test 3
 Maskine m;
+Box box;
 ArrayList<Kugle> kugler; 
 
 
@@ -11,6 +12,7 @@ void setup() {
   kugler = new ArrayList<Kugle>();
   for (int i = 0; i < 10; i++) kugler.add(new Kugle(50, 20));
   m = new Maskine();
+  box = new Box();
 }
 
 
@@ -28,10 +30,11 @@ void draw() {
     // Jeg tjekker også kollision for hver bold og alle bakkerne
     // Til sidst "displayer" jeg dem bare.
     kugle.update();
-    kugle.checkCollision(kugler2);
+    kugle.checkCollision(kugler2, box);
     kugle.display();
   }
   m.display();
+  box.display();
 }
 
 void mousePressed(){
