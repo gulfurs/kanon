@@ -21,14 +21,14 @@ class Kugle {
     this.location = new PVector(
       random(radius, xBoundary), 
       random(radius, yBoundary)
-    );
+      );
 
     // Her laves der en velocity vektor der har en tilfældig retning der er skaleret op til 12 til at starte med!
     int velocityScalar = 12;
     this.velocity = new PVector(
-      random(1) * velocityScalar,
+      random(1) * velocityScalar, 
       random(1) * velocityScalar
-    );
+      );
 
     // Tyngdekrafts vektor der peger ned ad mod jorden med en kraft på 9.82 N (y koordinatet er 9.82). 
     PVector earthGravity = new PVector(0, 9.82);
@@ -64,6 +64,13 @@ class Kugle {
   }
 
   void checkCollision(ArrayList<Kugle> kugler, ArrayList<Box> boxes) {
+    for (int i = 0 ; i < boxes.size(); i++) {
+      if (location.x > boxes.get(i).x && location.y > boxes.get(i).y) {
+        location.x = boxes.get(i).x;
+        velocity.x *= -1;
+      }
+    }
+
     for (Kugle kugle : kugler) {
       float actualDist = dist(location.x, location.y, kugle.location.x, kugle.location.y);
       // Boldens radius og bakkens radius lægges sammen
@@ -76,40 +83,40 @@ class Kugle {
         float dx = kugle.location.x - location.x;
         float dy = kugle.location.y - location.y;
         float spring = 0.5;
-      
+
         float angle = atan2(dy, dx);
         float targetX = location.x + cos(angle) * minDist;
         float targetY = location.y + sin(angle) * minDist;
         float ax = (targetX - kugle.location.x) * spring;
         float ay = (targetY - kugle.location.y) * spring;
-      
+
         PVector velocity2 = new PVector(ax, ay);
-      
+
         velocity.sub(velocity2);
         kugle.velocity.add(velocity2);
       }
     }
-    
+
     // Box kode - start
     //float actualDist = dist(location.x, location.y, bakke.x, bakke.y);
     // Boldens radius og bakkens radius lægges sammen
     // så vi får den minimum længde de kan være fra hinanden.
     //float minDist = radius + bakke.diameter / 2;
-    
+
     // Hvis den faktiske distance er kortere end den minimum distance de skal være så udfør "bouncing'en"
     //if (actualDist < minDist) {
     // En del af koden under denne kommentar er stjålet herfra: https://processing.org/examples/bouncybubbles.html
     //float dx = bakke.x - location.x;
     //float dy = bakke.y - location.y;
     //float spring = 0.5;
-    
+
     //float angle = atan2(dy, dx);
     //float targetX = location.x + cos(angle) * minDist;
     //float targetY = location.y + sin(angle) * minDist;
     //float ax = (targetX - bakke.x) * spring;
     //float ay = (targetY - bakke.y) * spring;
     //velocity.sub(new PVector(ax, ay));
-    
+
     // Jeg tilføjer også friktion til objektet når den rammer en bakke.
     //createFrictionForce();
     //R}
