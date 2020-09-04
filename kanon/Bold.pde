@@ -15,9 +15,9 @@ class Kugle {
     this.xBoundary = width - radius;
     this.yBoundary = height - radius;
 
-    // Lav en lokations vektor med tilfældige x og y koordinater
+    // Lav en lokations vektor med x og y koordinater
     // De tilfældige tal genereres i intervallet [radius; vinduets længder MINUS radius].
-    // Det sørger for at bolden ikke "spawner" ude fra vinduet!
+    // Det sørger for at kuglen ikke "spawner" ude fra vinduet
     this.location = new PVector(
       random(radius, xBoundary), 
       random(radius, yBoundary)
@@ -37,8 +37,8 @@ class Kugle {
   }
 
   void createFrictionForce() {
-    // Hvis boldens fart hen ad x-aksen er mindre ind 0.01 eller over -0.01 så sættes x til 0.
-    // Bolden vil opføre sig underligt og blive ved med at bevæge sig hvis vi ikke gjorde det.
+    // Hvis kuglen fart hen ad x-aksen er mindre ind 0.01 eller over -0.01 så sættes x til 0.
+    // Kuglen vil opføre sig underligt og blive ved med at bevæge sig hvis vi ikke gjorde det.
     if (velocity.x < 0.01 && velocity.x > -0.01) velocity.x = 0;
     // Hvis veloctiy.x er negativ så lægger vi 0.01 til og -0.01 hvis positiv.
     // På den måde vil vi hele tiden modvirke farten i x retningen og dermed simulere en slags friktion!
@@ -47,8 +47,8 @@ class Kugle {
 
   void update() {
     // Sørg for at farten aldrig kommer over ca. 20 
-    // da bolden af en eller anden grund når rigtig højt op i fart
-    // når de rammer hinanden og bakkerne.
+    // da kuglen af en eller anden grund når rigtig højt op i fart
+    // når de rammer hinanden.
     if (velocity.mag() > 20) {
       velocity.normalize();
       velocity.mult(19);
