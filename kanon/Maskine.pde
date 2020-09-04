@@ -2,7 +2,7 @@ class Maskine {
   float r; //radius 
   PVector position;
   PVector velocity;
-     float angle;
+  float angle;
 
   Maskine () {
     r = 90;
@@ -13,7 +13,7 @@ class Maskine {
   }
 
   void display () {
- 
+
     rectMode(CENTER);
     ellipseMode(CENTER);
     fill(210, 120, 110);
@@ -21,7 +21,7 @@ class Maskine {
     pushMatrix();
     translate(position.x, position.y);
     rotate(angle);
-    rect (0, -150, r*0.9, (r*2)+120); //kanon
+    rect (0, -150, r*0.9, (r*2)+120); //kanonrør
     popMatrix();
     fill(21, 21, 21);
     rect (position.x, position.y-40, r*2, r*2-50, 17); //krop
@@ -37,10 +37,8 @@ class Maskine {
   }
   void move() {
     if (key == 'd') {
-     // velocity.add(0.2, 0.02);
-     angle += 0.1;
+      angle += 0.1;
     } else if (key == 'a') {
-      //velocity.add(-0.02, 0.02);
       angle +=-0.1;
     }
   }
