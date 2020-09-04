@@ -22,6 +22,7 @@ void setup() {
 void draw() {
   background(255);
   m.display();
+ 
 
   for (Kugle kugle : kugler) {
 
@@ -38,12 +39,9 @@ void draw() {
   }
 
   for (Box box : boxes) box.display();
-
- 
-    m.move();
-    
-  
 }
 
-void mousePressed() {
+void keyPressed() {
+   m.move();
+   println(key);
 }

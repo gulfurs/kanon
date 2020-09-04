@@ -2,16 +2,18 @@ class Maskine {
   float r; //radius 
   PVector position;
   PVector velocity;
+     float angle;
 
   Maskine () {
     r = 90;
 
     position = new PVector (400, 700);
     velocity = new PVector (0, 0);
+    angle = velocity.heading();
   }
 
   void display () {
-    float angle = velocity.heading();
+ 
     rectMode(CENTER);
     ellipseMode(CENTER);
     fill(210, 120, 110);
@@ -35,7 +37,11 @@ class Maskine {
   }
   void move() {
     if (key == 'd') {
-      velocity.add(0.2, 0.02);
+     // velocity.add(0.2, 0.02);
+     angle += 0.1;
+    } else if (key == 'a') {
+      //velocity.add(-0.02, 0.02);
+      angle +=-0.1;
     }
   }
 }
