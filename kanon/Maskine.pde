@@ -1,13 +1,10 @@
 class Maskine {
   float r; //radius 
-  PVector position; 
-
-
-
+  PVector position;
+  
   Maskine () {
     r = 90;
-
-
+    
     position = new PVector (400, 700);
     //  pox = width/2; //starter i middel af skærmen 
     // poy = height-90; //strter  over bunden, ellers vil halvdelen være under skærmen
