@@ -1,19 +1,19 @@
 class Maskine {
   float r; //radius 
   PVector position;
-  PVector velocity;
-     float angle;
+  float angle;
+  
+  ArrayList<Kugle> kugler;
 
-  Maskine () {
+  Maskine (ArrayList<Kugle> kugler) {
     r = 90;
-
     position = new PVector (400, 700);
-    velocity = new PVector (0, 0);
-    angle = velocity.heading();
+    
+    this.kugler = kugler;
+    this.angle = 0;
   }
-
+  
   void display () {
- 
     rectMode(CENTER);
     ellipseMode(CENTER);
     fill(210, 120, 110);
@@ -35,13 +35,15 @@ class Maskine {
     stroke(0);
     strokeWeight(0);
   }
-  void move() {
-    if (key == 'd') {
-     // velocity.add(0.2, 0.02);
-     angle += 0.1;
-    } else if (key == 'a') {
-      //velocity.add(-0.02, 0.02);
-      angle +=-0.1;
-    }
+  void action() {
+    if (key == 'd') angle += 0.1;
+    else if (key == 'a') angle +=-0.1;
+    else if (key == 'g') shoot();
+  }
+  
+  private void shoot() {
+    Kugle kugle = new Kugle(50, 20, angle, this);
+    kugler.add(kugle);
+    
   }
 }

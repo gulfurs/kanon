@@ -9,7 +9,7 @@ class Kugle {
   float xBoundary;
   float yBoundary;
 
-  Kugle(int diameter, int mass) {
+  Kugle(int diameter, int mass, float angle, Maskine maskine) {
     this.diameter = diameter;
     this.radius = diameter / 2;
     this.xBoundary = width - radius;
@@ -18,17 +18,13 @@ class Kugle {
     // Lav en lokations vektor med tilfældige x og y koordinater
     // De tilfældige tal genereres i intervallet [radius; vinduets længder MINUS radius].
     // Det sørger for at bolden ikke "spawner" ude fra vinduet!
-    this.location = new PVector(
-      random(radius, xBoundary), 
-      random(radius, yBoundary)
-    );
+    this.location = maskine.position.copy();
 
     // Her laves der en velocity vektor der har en tilfældig retning der er skaleret op til 12 til at starte med!
     int velocityScalar = 12;
-    this.velocity = new PVector(
-      random(1) * velocityScalar,
-      random(1) * velocityScalar
-    );
+    
+    this.velocity = new PVector(0, -velocityScalar);
+    this.velocity.rotate(angle);
 
     // Tyngdekrafts vektor der peger ned ad mod jorden med en kraft på 9.82 N (y koordinatet er 9.82). 
     PVector earthGravity = new PVector(0, 9.82);

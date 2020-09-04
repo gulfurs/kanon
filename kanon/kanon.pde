@@ -1,31 +1,23 @@
 // Test code
 //test 2
 //test 3
-Maskine m;
 ArrayList<Kugle> kugler;
 ArrayList<Box> boxes;
-
+Maskine m;
 
 void setup() {
   size(800, 800);
-
-  m = new Maskine();
-
   kugler = new ArrayList<Kugle>();
-  for (int i = 0; i < 10; i++) kugler.add(new Kugle(50, 20));
-
   boxes = new ArrayList<Box>();
   for (int i = 0; i < 1; i++) boxes.add(new Box(650, 500, 100, 300));
+  m = new Maskine(kugler);
 }
-
 
 void draw() {
   background(255);
   m.display();
- 
-
+  
   for (Kugle kugle : kugler) {
-
     ArrayList<Kugle> kugler2 = new ArrayList<Kugle>(kugler);
     kugler2.remove(kugle);
 
@@ -42,6 +34,6 @@ void draw() {
 }
 
 void keyPressed() {
-   m.move();
+   m.action();
    println(key);
 }
