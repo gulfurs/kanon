@@ -65,10 +65,14 @@ class Kugle {
 
   void checkCollision(ArrayList<Kugle> kugler, ArrayList<Box> boxes) {
     for (int i = 0 ; i < boxes.size(); i++) {
-      if (location.x > boxes.get(i).x && location.y > boxes.get(i).y) {
+      if (location.x > boxes.get(i).x && location.y > boxes.get(i).y && location.x < boxes.get(i).x - boxes.get(i).widthSize || location.x > boxes.get(i).x + boxes.get(i).widthSize && location.y > boxes.get(i).y) {
         location.x = boxes.get(i).x;
         velocity.x *= -1;
       }
+     if (location.y > boxes.get(i).y && location.x < boxes.get(i).x + boxes.get(i).widthSize && location.x > boxes.get(i).x) {
+        location.y = boxes.get(i).y;
+        velocity.y *= -1;
+     }
     }
 
     for (Kugle kugle : kugler) {
