@@ -22,6 +22,7 @@ void setup() {
 void draw() {
   background(255);
   m.display();
+ 
 
   for (Kugle kugle : kugler) {
 
@@ -31,19 +32,15 @@ void draw() {
     // Her opdaterers hver kanonkugle's lokation og tjekker for dens kollision
     // med de andre inde i det array der hedder kugler2.
     // Der tjekkers også kollision mellem box og kuglerne
-    // Til sidst "displayer" jeg dem bare.
+    // Til sidst displayes de bare.
     kugle.update();
     kugle.checkCollision(kugler2, boxes);
     kugle.display();
   }
 
   for (Box box : boxes) box.display();
-
- 
-    m.move();
-    
-  
 }
 
-void mousePressed() {
+void keyPressed() {
+   m.move();
 }
