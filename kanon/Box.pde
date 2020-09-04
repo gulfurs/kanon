@@ -15,6 +15,7 @@ class Box {
   
   void display() {
     rectMode(CORNER);
+    fill(200);
     rect(this.x, this.y, this.widthSize, this.heightSize);
   }
 }
